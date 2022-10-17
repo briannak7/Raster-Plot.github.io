@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src = "https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@5"></script>
+    <title>Assignment 3</title>
+    <style>
+        body {
+            background-color: #f8f8f8;
+            text-align: center;
+        }
+
+        h1 {
+            color: black;
+            text-align: center;
+            font-family: sans-serif;
+            font-size: 25px;
+        }
+
+        p {
+            font-family: sans-serif;
+            font-size: 12px;
+        }
+
+        #vis2{
+            width: 300px;
+            left: -75px;
+        }
+
+        #vis3{
+            width: 300px;
+            left: -25px;
+        }
+    </style>
+</head>
+
+<body>
+<h1>Hypothesis about max temperature of world</h1>
+</body>
+
+<body>
+
+<div id="vis1"></div>
+<br>
+<br>
+
+</body>
+
+<script>
+    const spec1 = "both-rasters.json";
+
+    vegaEmbed("#vis1", spec1)
+        // result.view provides access to the Vega View API
+        .then(result => console.log(result))
+        .catch(console.warn);
+
+</script>
+<body>
+<p><br><br>Data Sources:<br></p>
+<p><a href="https://neo.gsfc.nasa.gov/view.php?datasetId=MOD_LSTD_M&year=2017">Average Land Surface Temperature for August 2017</a></p>
+<p><a href="https://neo.gsfc.nasa.gov/view.php?datasetId=MOD14A1_M_FIRE&year=2017">Fires for August 2017</a></p>
+<p><a href=""></a></p>
+</body>

@@ -1,0 +1,180 @@
+{
+    "$schema": "https://vega.github.io/schema/vega/v5.json",
+    "description": "For Assignment 3. Temperature taken daily and averaged over the month of August 2017 pitted against fires in the same month.",
+    "width": 600,
+    "height": 300,
+    "autosize": "fit-x",
+    "title": {
+        "offset": 0,
+        "text": "Monthly Average Temperature and Wildfires for August 2017",
+        "fontSize": 18
+    },
+
+    "signals": [
+        {
+            "name": "projection", "value": "naturalEarth1"
+        },
+        {
+            "name": "scale", "value": 110,
+            "bind": {"input": "range", "min": 50, "max": 400, "step": 5}
+        },
+        {
+            "name": "rotate", "value": 0,
+            "bind": {"input": "range", "min": -180, "max": 180, "step": 1}
+        },
+        {
+            "name": "opacity", "value": 0.5,
+            "bind": {"input": "range", "min": 0, "max": 1, "step": 0.01}
+        },
+        {
+            "name": "levels", "value": 6,
+            "bind": {"input": "range", "min": 2, "max": 12, "step": 1}
+        },
+        {
+            "name": "stop", "value":50
+        },
+        {
+            "name": "step",
+            "update": "stop / levels"
+        }
+    ],
+
+    "data": [
+        {
+            "name": "temp",
+            "url": "aug-2017.json"
+        },
+        {
+            "name": "contours",
+            "source": "temp",
+            "transform": [
+                {
+                    "type": "isocontour",
+                    "thresholds": {"signal": "sequence(-25, stop, step)"}
+                }
+            ]
+        },
+        {
+            "name": "world",
+            "url": "world-110m.json",
+            "format": {"type": "topojson", "feature": "countries"}
+        },
+        {
+            "name": "fires",
+            "url": "aug-2017-fires.json"
+        },
+        {
+            "name": "contours2",
+            "source": "fires",
+            "transform": [
+                {
+                    "type": "isocontour",
+                    "thresholds": {"signal": "sequence(step, stop, step)"}
+                }
+            ]
+        }
+    ],
+
+    "projections": [
+        {
+            "name": "projection",
+            "type": {"signal": "projection"},
+            "scale": {"signal": "scale"},
+            "rotate": {"signal": "[rotate]"},
+            "translate": {"signal": "[width/2, height/2]"}
+        }
+    ],
+
+    "scales": [
+        {
+            "name": "color",
+            "type": "quantize",
+            "domain": {"signal": "[-30, stop]"},
+            "range": {"scheme": "turbo", "count": {"signal": "levels"}}
+        },
+        {
+            "name": "fire-color",
+            "type": "quantize",
+            "domain": {"signal": "[0, 300]"},
+            "range": {"scheme": "greys", "count": {"signal": "levels"}}
+        }
+    ],
+
+    "marks": [
+        {
+            "type": "shape",
+            "clip": true,
+            "from": {"data": "world"},
+            "encode": {
+                "update": {
+                    "strokeWidth": {"value": 1},
+                    "stroke": {"value": "#eee"},
+                    "fill": {"value": "#ddd"}
+                }
+            },
+            "transform": [
+                {
+                    "type": "geoshape",
+                    "projection": "projection"
+                }
+            ]
+        },
+        {
+            "type": "shape",
+            "clip": true,
+            "from": { "data": "contours"},
+            "encode": {
+                "update": {
+                    "fill": {"scale": "color", "field": "contour.value"},
+                    "fillOpacity": {"signal": "opacity"}
+                }
+            },
+            "transform": [
+                {
+                    "type": "geoshape",
+                    "field": "datum.contour",
+                    "projection": "projection"
+                }
+            ]
+        },
+        {
+            "type": "shape",
+            "clip": true,
+            "from": { "data": "contours2"},
+            "encode": {
+                "update": {
+                    "fill": {"value": "black"},
+                    "fillOpacity": 0.8
+                }
+            },
+            "transform": [
+                {
+                    "type": "geoshape",
+                    "field": "datum.contour",
+                    "projection": "projection"
+                }
+            ]
+        }
+    ],
+
+
+    "legends": [
+        {
+            "title": "Temperature (C)",
+            "fill": "color",
+            "orient": "bottom",
+            "offset": 5,
+            "type": "gradient",
+            "gradientLength": 300,
+            "gradientThickness": 12,
+            "titlePadding": 10,
+            "titleOrient": "left",
+            "titleAnchor": "end",
+            "direction": "horizontal"
+        }
+    ],
+
+    "config": {
+        "legend": {"layout": {"anchor": "middle"}}
+    }
+}
