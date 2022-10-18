@@ -4,11 +4,13 @@
     "width": 650,
     "height": 350,
     "autosize": "fit-x",
+    "padding": 15,
     "title": {
         "offset": 10,
-        "text": "Monthly Average Temperature and Wildfires for August 2017",
+        "text": "Monthly Average Land Temperature and Wildfires for August 2017",
         "fontSize": 18,
-        "subtitle": "Wildfires are denoted as black diamonds"
+        "subtitle": "Wildfires are denoted as black diamonds",
+        "subtitleFontSize": 14
     },
 
     "signals": [
@@ -72,10 +74,12 @@
             ]
         },
         {
-            "name": "equator",
-            "values": [
-                {"longitude": 180, "latitude": 0},
-                {"longitude": -180, "latitude": 0}
+            "name": "graticule",
+            "transform": [
+                {
+                    "type": "graticule",
+                    "step": [{"signal": "step"}, {"signal": "step"}]
+                }
             ]
         }
     ],
@@ -96,12 +100,6 @@
             "type": "quantize",
             "domain": {"signal": "[-25, 50]"},
             "range": {"scheme": "turbo"}
-        },
-        {
-            "name": "fire-legend",
-            "type": "point",
-            "domain": {"data": "equator", "field": "Wildfire"},
-            "range": "diverging"
         }
     ],
 
@@ -161,19 +159,19 @@
             ]
         },
         {
-            "type": "rect",
-            "from": {"data": "equator"},
+            "type": "shape",
+            "clip": true,
+            "from": {"data": "graticule"},
             "encode": {
-                "enter": {
-                    "x": -180,
-                    "y": 0,
-                    "x2": 180,
-                    "y2": 0,
-                    "size": {"value": 2.5},
-                    "height": {"value": 2},
-                    "fill": {"value": "#557"}
+                "update": {
+                    "strokeWidth": {"value": 1},
+                    "stroke": {"value": "#dbdad7"},
+                    "fill": {"value": null}
                 }
-            }
+            },
+            "transform": [
+                { "type": "geoshape", "projection": "projection" }
+            ]
         }
     ],
 
