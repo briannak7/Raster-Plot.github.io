@@ -125,6 +125,21 @@
         {
             "type": "shape",
             "clip": true,
+            "from": {"data": "graticule"},
+            "encode": {
+                "update": {
+                    "strokeWidth": {"value": 1},
+                    "stroke": {"value": "#dbdad7"},
+                    "fill": {"value": null}
+                }
+            },
+            "transform": [
+                { "type": "geoshape", "projection": "projection" }
+            ]
+        },
+        {
+            "type": "shape",
+            "clip": true,
             "from": { "data": "contours"},
             "encode": {
                 "update": {
@@ -156,21 +171,6 @@
                     "field": "datum.contour",
                     "projection": "projection"
                 }
-            ]
-        },
-        {
-            "type": "shape",
-            "clip": true,
-            "from": {"data": "graticule"},
-            "encode": {
-                "update": {
-                    "strokeWidth": {"value": 1},
-                    "stroke": {"value": "#dbdad7"},
-                    "fill": {"value": null}
-                }
-            },
-            "transform": [
-                { "type": "geoshape", "projection": "projection" }
             ]
         }
     ],
