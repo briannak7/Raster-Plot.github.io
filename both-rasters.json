@@ -1,8 +1,8 @@
 {
     "$schema": "https://vega.github.io/schema/vega/v5.json",
     "description": "For Assignment 3. Temperature taken daily and averaged over the month of August 2017 pitted against fires in the same month.",
-    "width": 750,
-    "height": 450,
+    "width": 650,
+    "height": 350,
     "autosize": "fit-x",
     "padding": 15,
     "title": {
@@ -78,7 +78,7 @@
             "transform": [
                 {
                     "type": "graticule",
-                    "step": [{"signal": "step"}, {"signal": "step"}]
+                    "stepMinor": [15, 15]
                 }
             ]
         }
