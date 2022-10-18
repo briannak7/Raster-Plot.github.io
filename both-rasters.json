@@ -1,13 +1,14 @@
 {
     "$schema": "https://vega.github.io/schema/vega/v5.json",
     "description": "For Assignment 3. Temperature taken daily and averaged over the month of August 2017 pitted against fires in the same month.",
-    "width": 600,
-    "height": 300,
+    "width": 650,
+    "height": 350,
     "autosize": "fit-x",
     "title": {
-        "offset": 0,
+        "offset": 10,
         "text": "Monthly Average Temperature and Wildfires for August 2017",
-        "fontSize": 18
+        "fontSize": 18,
+        "subtitle": "Wildfires are denoted as black diamonds"
     },
 
     "signals": [
@@ -15,20 +16,16 @@
             "name": "projection", "value": "naturalEarth1"
         },
         {
-            "name": "scale", "value": 110,
-            "bind": {"input": "range", "min": 50, "max": 400, "step": 5}
+            "name": "scale", "value": 150
         },
         {
-            "name": "rotate", "value": 0,
-            "bind": {"input": "range", "min": -180, "max": 180, "step": 1}
+            "name": "rotate", "value": -17
         },
         {
-            "name": "opacity", "value": 0.5,
-            "bind": {"input": "range", "min": 0, "max": 1, "step": 0.01}
+            "name": "opacity", "value": 1
         },
         {
-            "name": "levels", "value": 6,
-            "bind": {"input": "range", "min": 2, "max": 12, "step": 1}
+            "name": "levels", "value": 8
         },
         {
             "name": "stop", "value":50
@@ -50,7 +47,8 @@
             "transform": [
                 {
                     "type": "isocontour",
-                    "thresholds": {"signal": "sequence(-25, stop, step)"}
+                    "thresholds": {"signal": "sequence(-25, stop, step)"},
+                    "nice": true
                 }
             ]
         },
@@ -69,8 +67,15 @@
             "transform": [
                 {
                     "type": "isocontour",
-                    "thresholds": {"signal": "sequence(step, stop, step)"}
+                    "thresholds": {"signal": "sequence(step, 50, step)"}
                 }
+            ]
+        },
+        {
+            "name": "equator",
+            "values": [
+                {"longitude": 180, "latitude": 0},
+                {"longitude": -180, "latitude": 0}
             ]
         }
     ],
@@ -89,14 +94,14 @@
         {
             "name": "color",
             "type": "quantize",
-            "domain": {"signal": "[-30, stop]"},
-            "range": {"scheme": "turbo", "count": {"signal": "levels"}}
+            "domain": {"signal": "[-25, 50]"},
+            "range": {"scheme": "turbo"}
         },
         {
-            "name": "fire-color",
-            "type": "quantize",
-            "domain": {"signal": "[0, 300]"},
-            "range": {"scheme": "greys", "count": {"signal": "levels"}}
+            "name": "fire-legend",
+            "type": "point",
+            "domain": {"data": "equator", "field": "Wildfire"},
+            "range": "diverging"
         }
     ],
 
@@ -126,7 +131,7 @@
             "encode": {
                 "update": {
                     "fill": {"scale": "color", "field": "contour.value"},
-                    "fillOpacity": {"signal": "opacity"}
+                    "fillOpacity": 1
                 }
             },
             "transform": [
@@ -144,7 +149,7 @@
             "encode": {
                 "update": {
                     "fill": {"value": "black"},
-                    "fillOpacity": 0.8
+                    "fillOpacity": {"value": 0.25}
                 }
             },
             "transform": [
@@ -154,6 +159,21 @@
                     "projection": "projection"
                 }
             ]
+        },
+        {
+            "type": "rect",
+            "from": {"data": "equator"},
+            "encode": {
+                "enter": {
+                    "x": -180,
+                    "y": 0,
+                    "x2": 180,
+                    "y2": 0,
+                    "size": {"value": 2.5},
+                    "height": {"value": 2},
+                    "fill": {"value": "#557"}
+                }
+            }
         }
     ],
 
@@ -163,7 +183,7 @@
             "title": "Temperature (C)",
             "fill": "color",
             "orient": "bottom",
-            "offset": 5,
+            "offset": 10,
             "type": "gradient",
             "gradientLength": 300,
             "gradientThickness": 12,
