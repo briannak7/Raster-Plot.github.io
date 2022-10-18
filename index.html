@@ -37,7 +37,7 @@
 </head>
 
 <body>
-<h1>The Northern Hemisphere Saw More Wildfires than the Southern Hemisphere in the Month of August 2017</h1>
+<h1>The Northern Hemisphere Saw More Wildfires due to Hotter Temperature Conditions than the Southern Hemisphere in the Month of August 2017</h1>
 </body>
 
 <body>
@@ -49,7 +49,7 @@
 </body>
 
 <script>
-    const spec1 = "both-rasters.json";
+    const spec1 = "both-rasters-equator.json";
 
     vegaEmbed("#vis1", spec1)
         // result.view provides access to the Vega View API
@@ -60,15 +60,17 @@
 </script>
 
 <body>
-<div style = "position:relative; left:-20px; top:-263px; color:blue;">
+<p>Total Wildfires in the Northern Hemisphere: 12,021</p>
+<p>Total Wildfires in the Southern Hemisphere: 2,952<br></p>
+<p>The Northern Hemisphere had over 4 times as many wildfires, making up 80.28% of the total fires in August of 2017</p>
+<div style = "position:relative; left:-20px; top:-352px; color:blue;">
     _____________________________________________________________________________________
 </div>
-<div style = "position:relative; left:-400px; top:-275px; color:blue;">
+<div style = "position:relative; left:-395px; top:-364px; color:blue; rotate: 0deg">
    Equator
 </div>
-<p>Total Wildfires in the Northern Hemisphere: 12,021</p>
-<p>Total Wildfires in the Southern Hemisphere: 2,952<br><br></p>
-<p><br><br>Data Sources:<br></p>
+
+<p><br>Data Sources:<br></p>
 <p><a href="https://neo.gsfc.nasa.gov/view.php?datasetId=MOD_LSTD_M&year=2017">Average Land Surface Temperature for August 2017</a></p>
 <p><a href="https://neo.gsfc.nasa.gov/view.php?datasetId=MOD14A1_M_FIRE&year=2017">Fires for August 2017</a></p>
 <p><a href="https://github.com/vega/datalib/blob/master/test/data/world-110m.json">World by Country Projection</a></p>
